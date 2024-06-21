@@ -1,0 +1,60 @@
+from abc import ABC, abstractmethod
+
+# Базовий клас Shape з методом calculate_area
+class Shape(ABC):
+    @abstractmethod
+    def calculate_area(self):
+        pass
+
+# Клас Circle, що наслідується від Shape
+class Circle(Shape):
+    def __init__(self, radius):
+        self.radius = radius
+    
+    def calculate_area(self):
+        return 3.14 * self.radius * self.radius
+    
+    def draw(self):
+        print(f"Drawing a circle with radius {self.radius}")
+
+# Клас Square, що наслідується від Shape
+class Square(Shape):
+    def __init__(self, side_length):
+        self.side_length = side_length
+    
+    def calculate_area(self):
+        return self.side_length * self.side_length
+    
+    def draw(self):
+        print(f"Drawing a square with side length {self.side_length}")
+
+# Клас Triangle, що наслідується від Shape
+class Triangle(Shape):
+    def __init__(self, base, height):
+        self.base = base
+        self.height = height
+    
+    def calculate_area(self):
+        return 0.5 * self.base * self.height
+    
+    def draw(self):
+        print(f"Drawing a triangle with base {self.base} and height {self.height}")
+
+# Інтерфейс IDrawable з методом draw
+class IDrawable(ABC):
+    @abstractmethod
+    def draw(self):
+        pass
+
+# Приклад використання поліморфізму для обчислення площі та виклику методу draw
+def main():
+    shapes = [Circle(5), Square(4), Triangle(3, 6)]
+    
+    for shape in shapes:
+        area = shape.calculate_area()
+        shape.draw()
+        print(f"Area: {area}")
+        print()
+
+if __name__ == "__main__":
+    main()
