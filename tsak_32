@@ -1,0 +1,73 @@
+using System;
+
+public abstract class Document
+{
+    public abstract void Print();
+
+    public void PrepareForPrinting()
+    {
+        Console.WriteLine($"Preparing the document {GetType().Name} for printing...");
+        Print();
+        Console.WriteLine("Document prepared and sent to the printer.");
+    }
+}
+
+public class PDFDocument : Document
+{
+    public override void Print()
+    {
+        Console.WriteLine("Printing PDF document...");
+    }
+}
+
+public class WordDocument : Document
+{
+    public override void Print()
+    {
+        Console.WriteLine("Printing Word document...");
+    }
+}
+
+public class ExcelDocument : Document
+{
+    public override void Print()
+    {
+        Console.WriteLine("Printing Excel document...");
+    }
+}
+
+public class DocumentFactory
+{
+    public Document CreateDocument(string type)
+    {
+        switch (type.ToLower())
+        {
+            case "pdf":
+                return new PDFDocument();
+            case "word":
+                return new WordDocument();
+            case "excel":
+                return new ExcelDocument();
+            default:
+                throw new ArgumentException($"Unsupported document type: {type}");
+        }
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        DocumentFactory factory = new DocumentFactory();
+        Document pdfDocument = factory.CreateDocument("pdf");
+        pdfDocument.PrepareForPrinting();
+
+        Console.WriteLine();
+        Document wordDocument = factory.CreateDocument("word");
+        wordDocument.PrepareForPrinting();
+
+        Console.WriteLine();
+        Document excelDocument = factory.CreateDocument("excel");
+        excelDocument.PrepareForPrinting();
+    }
+}
