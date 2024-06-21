@@ -1,0 +1,74 @@
+using System;
+
+public class Product
+{
+    protected static int count = 0;
+
+    public string Name { get; set; }
+    public decimal Price { get; set; }
+
+    public Product(string name, decimal price)
+    {
+        Name = name;
+        Price = price;
+        count++;
+    }
+
+    public virtual void DisplayInfo()
+    {
+        Console.WriteLine($"Name: {Name}, Price: {Price:C}");
+    }
+
+    public static int GetTotalProducts()
+    {
+        return count;
+    }
+}
+
+public class ElectronicProduct : Product
+{
+    public int WarrantyPeriod { get; set; }
+
+    public ElectronicProduct(string name, decimal price, int warrantyPeriod) 
+        : base(name, price)
+    {
+        WarrantyPeriod = warrantyPeriod;
+    }
+
+    public override void DisplayInfo()
+    {
+        base.DisplayInfo();
+        Console.WriteLine($"Warranty Period: {WarrantyPeriod} months");
+    }
+}
+
+public class ClothingProduct : Product
+{
+    public string Size { get; set; }
+
+    public ClothingProduct(string name, decimal price, string size) 
+        : base(name, price)
+    {
+        Size = size;
+    }
+
+    public override void DisplayInfo()
+    {
+        base.DisplayInfo();
+        Console.WriteLine($"Size: {Size}");
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        ElectronicProduct laptop = new ElectronicProduct("Laptop", 1500, 24);
+        ClothingProduct tshirt = new ClothingProduct("T-Shirt", 20, "M");
+
+        laptop.DisplayInfo();
+        tshirt.DisplayInfo();
+
+        Console.WriteLine($"Total number of products created: {Product.GetTotalProducts()}");
+    }
+}
