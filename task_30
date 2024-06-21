@@ -1,0 +1,168 @@
+using System;
+
+
+
+public class Logger
+
+{
+
+    private static Logger instance;
+
+
+
+    private Logger() { }
+
+
+
+    public static Logger Instance
+
+    {
+
+        get
+
+        {
+
+            if (instance == null)
+
+            {
+
+                instance = new Logger();
+
+            }
+
+            return instance;
+
+        }
+
+    }
+
+
+
+    public void Log(string message)
+
+    {
+
+        Console.WriteLine($"[LOG] {DateTime.Now}: {message}");
+
+    }
+
+}
+
+
+
+public class BankAccount
+
+{
+
+    private string accountNumber;
+
+    private decimal balance;
+
+
+
+    public BankAccount(string accountNumber, decimal initialBalance)
+
+    {
+
+        this.accountNumber = accountNumber;
+
+        this.balance = initialBalance;
+
+    }
+
+
+
+    public void Deposit(decimal amount)
+
+    {
+
+        balance += amount;
+
+        Logger.Instance.Log($"Deposited {amount}. New balance: {balance}");
+
+    }
+
+
+
+    public void Withdraw(decimal amount)
+
+    {
+
+        if (amount > balance)
+
+        {
+
+            throw new InvalidOperationException("Insufficient funds");
+
+        }
+
+
+
+        balance -= amount;
+
+        Logger.Instance.Log($"Withdrawn {amount}. New balance: {balance}");
+
+    }
+
+
+
+    public string AccountNumber
+
+    {
+
+        get { return accountNumber; }
+
+    }
+
+
+
+    public decimal Balance
+
+    {
+
+        get { return balance; }
+
+    }
+
+}
+
+
+
+class Program
+
+{
+
+    static void Main()
+
+    {
+
+        BankAccount account = new BankAccount("123456789", 1000);
+
+        account.Deposit(500);
+
+        try
+
+        {
+
+            account.Withdraw(200);
+
+            account.Withdraw(1500); // This will throw an exception
+
+        }
+
+        catch (InvalidOperationException ex)
+
+        {
+
+            Console.WriteLine($"Exception: {ex.Message}");
+
+        }
+
+        Console.WriteLine($"Account balance: {account.Balance}");
+
+        Console.ReadLine();
+
+    }
+
+}
+
